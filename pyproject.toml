@@ -46,8 +46,12 @@ dev = ["pytest>=7", "ruff>=0.4"]
 [project.urls]
 Homepage = "https://cloro.dev"
 Documentation = "https://cloro.dev/docs"
+"Python guide" = "https://cloro.dev/integrations/python/"
+"SERP API" = "https://cloro.dev/serp-api/"
+Pricing = "https://cloro.dev/pricing/"
 Source = "https://github.com/cloro-dev/cloro-python"
 Issues = "https://github.com/cloro-dev/cloro-python/issues"
+Changelog = "https://github.com/cloro-dev/cloro-python/blob/main/CHANGELOG.md"
 
 [tool.hatch.version]
 path = "src/cloro/_version.py"

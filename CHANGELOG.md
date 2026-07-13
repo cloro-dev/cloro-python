@@ -4,7 +4,14 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project adheres
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.1.1]
+
+### Changed
+
+- README and project URLs: link cloro.dev product pages (SERP API, Python
+  guide, pricing) so the PyPI page references them.
+
+## [0.1.0]
 
 ### Added
 
