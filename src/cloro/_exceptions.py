@@ -79,7 +79,7 @@ class NotFoundError(APIStatusError):
 
 
 class ConflictError(APIStatusError):
-    """409 — the request conflicts with current state (e.g. concurrency limit)."""
+    """409 — the request conflicts with current state (e.g. a reused idempotency key)."""
 
 
 class RateLimitError(APIStatusError):

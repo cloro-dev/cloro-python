@@ -113,7 +113,7 @@ Valid `task_type` values: `CHATGPT`, `GEMINI`, `PERPLEXITY`, `COPILOT`, `GROK`,
 client = Cloro(
     api_key="sk_live_...",
     base_url="https://api.cloro.dev",  # override if needed
-    timeout=60.0,                       # per-request seconds
+    timeout=300.0,                      # per-request seconds (the default)
     max_retries=2,                      # timeouts, connection errors, 429/5xx
 )
 ```

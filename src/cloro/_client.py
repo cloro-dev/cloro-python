@@ -26,7 +26,7 @@ from .resources.async_tasks import AsyncTasksResource
 from .resources.monitor import MonitorResource
 
 DEFAULT_BASE_URL = "https://api.cloro.dev"
-DEFAULT_TIMEOUT = 60.0
+DEFAULT_TIMEOUT = 300.0  # a sync request can run for several minutes
 DEFAULT_MAX_RETRIES = 2
 
 _STATUS_MAP = {
