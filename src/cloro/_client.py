@@ -87,7 +87,7 @@ class Cloro:
     """Client for the cloro API.
 
     One API for Google Search and every AI answer engine (ChatGPT, Gemini,
-    Perplexity, Copilot, Grok, AI Overview, AI Mode). Real-time, structured JSON.
+    Perplexity, Copilot, AI Overview, AI Mode). Real-time, structured JSON.
 
     Args:
         api_key: Your cloro API key (``sk_live_...``). Falls back to the

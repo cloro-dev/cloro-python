@@ -2,7 +2,11 @@
 
 The official Python client for [**cloro**](https://cloro.dev) — one API for
 Google Search and every AI answer engine (ChatGPT, Gemini, Perplexity, Copilot,
-Grok, AI Overview, AI Mode). Real-time, structured JSON.
+AI Overview, AI Mode). Real-time, structured JSON.
+
+> **Perplexity is temporarily unavailable.** The cloro API rejects requests to
+> it with a `400` (`MODEL_UNAVAILABLE`). These requests cost no credits. The
+> [changelog](https://cloro.dev/docs/changelog) will say when it is back.
 
 Use the SDK, or [just `curl` it](https://cloro.dev/docs) — same clean response
 either way. The SDK adds typed methods, sensible retries, and a polling helper
@@ -48,7 +52,6 @@ client.monitor.chatgpt(prompt="...", country="US")
 client.monitor.gemini(prompt="...", country="US")
 client.monitor.perplexity(prompt="...", country="US")
 client.monitor.copilot(prompt="...", country="US")
-client.monitor.grok(prompt="...", country="US")
 client.monitor.aimode(prompt="...", country="US")           # Google AI Mode
 
 client.monitor.google(query="best crm", country="US", pages=1)
@@ -104,8 +107,8 @@ Queue-wide status:
 client.async_tasks.status()   # queued / processing counts, concurrency usage
 ```
 
-Valid `task_type` values: `CHATGPT`, `GEMINI`, `PERPLEXITY`, `COPILOT`, `GROK`,
-`AIMODE`, `GOOGLE`, `GOOGLE_NEWS`.
+Valid `task_type` values: `CHATGPT`, `GEMINI`, `PERPLEXITY`, `COPILOT`, `AIMODE`,
+`GOOGLE`, `GOOGLE_NEWS`.
 
 ## Configuration
 

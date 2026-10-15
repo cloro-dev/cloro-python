@@ -88,7 +88,7 @@ class AsyncTasksResource:
 
         Args:
             task_type: One of ``CHATGPT``, ``GEMINI``, ``PERPLEXITY``, ``COPILOT``,
-                ``GROK``, ``AIMODE``, ``GOOGLE``, ``GOOGLE_NEWS``.
+                ``AIMODE``, ``GOOGLE``, ``GOOGLE_NEWS``.
             payload: Provider-specific body (e.g. ``{"prompt": ..., "country": ...}``,
                 or ``{"query": ..., "country": ...}`` for Google Search).
             priority: 1-10, higher runs first (default 1).

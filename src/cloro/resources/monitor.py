@@ -60,15 +60,6 @@ class MonitorResource:
             {"prompt": prompt, "country": country, "include": include, **extra},
         )
 
-    def grok(
-        self, prompt: str, country: str, *, include: Optional[Dict[str, bool]] = None, **extra: Any
-    ) -> Any:
-        """Monitor Grok. ``POST /v1/monitor/grok``."""
-        return self._run(
-            "/v1/monitor/grok",
-            {"prompt": prompt, "country": country, "include": include, **extra},
-        )
-
     def aimode(
         self, prompt: str, country: str, *, include: Optional[Dict[str, bool]] = None, **extra: Any
     ) -> Any:
