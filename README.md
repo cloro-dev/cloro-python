@@ -6,6 +6,11 @@ and an AI search API that returns the answers of ChatGPT, Perplexity, Gemini,
 Copilot, Google AI Overview and AI Mode as real-time, structured JSON with
 sources. Use it in scripts, data pipelines, agents and RAG pipelines.
 
+For agents there is also a hosted MCP server at `https://mcp.cloro.dev/mcp`
+for Claude, Cursor and any MCP client
+([setup](https://cloro.dev/docs/integrations/mcp),
+[source](https://github.com/cloro-dev/mcp-server)).
+
 Use the SDK, or [just `curl` it](https://cloro.dev/docs) — same clean response
 either way. The SDK adds typed methods, sensible retries, and a polling helper
 for the async task queue so you don't hand-roll it.
