@@ -1,8 +1,10 @@
 # cloro Python SDK
 
-The official Python client for [**cloro**](https://cloro.dev) — one API for
-Google Search and every AI answer engine (ChatGPT, Gemini, Perplexity, Copilot,
-AI Overview, AI Mode). Real-time, structured JSON.
+The official Python SDK for [**cloro**](https://cloro.dev): a
+[SERP API](https://cloro.dev/serp-api/) for Google Search, a Google News API
+and an AI search API that returns the answers of ChatGPT, Perplexity, Gemini,
+Copilot, Google AI Overview and AI Mode as real-time, structured JSON with
+sources. Use it in scripts, data pipelines, agents and RAG pipelines.
 
 Use the SDK, or [just `curl` it](https://cloro.dev/docs) — same clean response
 either way. The SDK adds typed methods, sensible retries, and a polling helper
