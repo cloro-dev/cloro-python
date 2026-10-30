@@ -64,6 +64,28 @@ client.monitor.google_news(query="acme corp", country="US")
 Pass `include={...}` to request extra formats — `markdown`, `html`,
 `searchQueries`, `shopping`, and more, depending on the engine.
 
+## Google Search results as JSON
+
+`client.monitor.google` returns the parsed results page: organic results,
+People Also Ask, ads, local results and more. One request covers up to 10
+pages; each page after the first adds 2 credits. Add `include={"html": True}`
+for links to the raw HTML of each page, at no extra cost.
+
+```python
+res = client.monitor.google(query="best crm", country="US", pages=2, include={"html": True})
+
+for item in res["result"]["organicResults"]:
+    print(item["position"], item["title"], item["link"])
+
+print(res["result"]["html"])  # one URL per page; each expires after 24 hours
+```
+
+Add `include={"aioverview": True}` to get Google's AI Overview and its sources
+in the same response (+2 credits).
+
+`client.monitor` calls are sync requests, so each adds a +2 credit surcharge
+on top of the base cost and any add-ons; the async task queue below does not.
+
 ## Async task queue
 
 For high-volume or long-running work, enqueue tasks and poll them to completion.
