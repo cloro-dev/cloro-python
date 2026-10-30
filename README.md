@@ -62,7 +62,8 @@ client.monitor.google_news(query="acme corp", country="US")
 ```
 
 Pass `include={...}` to request extra formats — `markdown`, `html`,
-`searchQueries`, `shopping`, and more, depending on the engine.
+`searchQueries`, `shopping`, and more, depending on the engine. On ChatGPT,
+`searchQueries` is empty unless you also pass `legacy=True` (best effort).
 
 ## Google Search results as JSON
 
