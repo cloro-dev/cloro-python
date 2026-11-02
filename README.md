@@ -59,7 +59,7 @@ client.monitor.google(query="best crm", country="US", pages=1)
 client.monitor.google_news(query="acme corp", country="US")
 ```
 
-Pass `include={...}` to request extra formats — `markdown`, `html`,
+Pass `include={...}` to request extra formats: `markdown`, `html`,
 `searchQueries`, `shopping`, and more, depending on the engine.
 
 ## Async task queue
@@ -161,9 +161,9 @@ client.states()                # US states for location-targeted Google
 
 ## Links
 
-- [cloro.dev](https://cloro.dev) — the hosted SERP + AI answer-engine API
-- [SERP API](https://cloro.dev/serp-api/) — the Google Search endpoint this SDK wraps
-- [Python guide](https://cloro.dev/integrations/python/) — quickstart, recipes, and production patterns
+- [cloro.dev](https://cloro.dev): the hosted SERP + AI answer-engine API
+- [SERP API](https://cloro.dev/serp-api/): the Google Search endpoint this SDK wraps
+- [Python guide](https://cloro.dev/integrations/python/): quickstart, recipes, and production patterns
 - [Docs](https://cloro.dev/docs) and [API reference (OpenAPI)](https://cloro.dev/docs/api-reference/openapi.json)
 - [Pricing](https://cloro.dev/pricing/) · [Dashboard](https://dashboard.cloro.dev/)
 - TypeScript SDK: [cloro-node](https://github.com/cloro-dev/cloro-node)
