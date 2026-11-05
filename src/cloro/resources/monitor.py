@@ -42,24 +42,6 @@ class MonitorResource:
             {"prompt": prompt, "country": country, "include": include, **extra},
         )
 
-    def perplexity(
-        self, prompt: str, country: str, *, include: Optional[Dict[str, bool]] = None, **extra: Any
-    ) -> Any:
-        """Monitor Perplexity. ``POST /v1/monitor/perplexity``."""
-        return self._run(
-            "/v1/monitor/perplexity",
-            {"prompt": prompt, "country": country, "include": include, **extra},
-        )
-
-    def copilot(
-        self, prompt: str, country: str, *, include: Optional[Dict[str, bool]] = None, **extra: Any
-    ) -> Any:
-        """Monitor Microsoft Copilot. ``POST /v1/monitor/copilot``."""
-        return self._run(
-            "/v1/monitor/copilot",
-            {"prompt": prompt, "country": country, "include": include, **extra},
-        )
-
     def aimode(
         self, prompt: str, country: str, *, include: Optional[Dict[str, bool]] = None, **extra: Any
     ) -> Any:

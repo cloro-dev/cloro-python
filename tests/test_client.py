@@ -65,6 +65,12 @@ def test_monitor_google_uses_query():
     assert seen["url"].endswith("/v1/monitor/google")
 
 
+def test_discontinued_engines_are_not_exposed():
+    client = Cloro(api_key="sk_test")
+    assert not hasattr(client.monitor, "copilot")
+    assert not hasattr(client.monitor, "perplexity")
+
+
 def test_none_values_are_dropped_from_body():
     seen = {}
 

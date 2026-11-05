@@ -2,7 +2,7 @@
 
 The official Python SDK for [**cloro**](https://cloro.dev), the API for Google Search
 and AI answers. It gives you a Google SERP API, a Google News API, and answers from
-ChatGPT, Perplexity, Gemini, Copilot, Google AI Mode and Google AI Overview. cloro
+ChatGPT, Gemini, Google AI Mode and Google AI Overview. cloro
 also runs an [MCP server](https://cloro.dev/docs/integrations/mcp) that exposes
 its monitor endpoints as tools for Claude, Codex, Cursor or your own agent.
 
@@ -51,8 +51,6 @@ Google Search and Google News take a `query`.
 ```python
 client.monitor.chatgpt(prompt="...", country="US")
 client.monitor.gemini(prompt="...", country="US")
-client.monitor.perplexity(prompt="...", country="US")
-client.monitor.copilot(prompt="...", country="US")
 client.monitor.aimode(prompt="...", country="US")           # Google AI Mode
 
 client.monitor.google(query="best crm", country="US", pages=1)
@@ -93,7 +91,7 @@ Batch up to 500 tasks in a single request (results preserve input order):
 ```python
 results = client.async_tasks.create_batch([
     {"task_type": "CHATGPT", "payload": {"prompt": "q1", "country": "US"}},
-    {"task_type": "PERPLEXITY", "payload": {"prompt": "q2", "country": "GB"}},
+    {"task_type": "GEMINI", "payload": {"prompt": "q2", "country": "GB"}},
 ])
 for item in results:
     if item["success"]:
@@ -108,8 +106,8 @@ Queue-wide status:
 client.async_tasks.status()   # queued / processing counts, concurrency usage
 ```
 
-Valid `task_type` values: `CHATGPT`, `GEMINI`, `PERPLEXITY`, `COPILOT`, `AIMODE`,
-`GOOGLE`, `GOOGLE_NEWS`.
+Valid `task_type` values: `CHATGPT`, `GEMINI`, `AIMODE`, `GOOGLE`,
+`GOOGLE_NEWS`.
 
 ## Configuration
 

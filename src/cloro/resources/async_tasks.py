@@ -87,8 +87,8 @@ class AsyncTasksResource:
         """Enqueue a single task. ``POST /v1/async/task``.
 
         Args:
-            task_type: One of ``CHATGPT``, ``GEMINI``, ``PERPLEXITY``, ``COPILOT``,
-                ``AIMODE``, ``GOOGLE``, ``GOOGLE_NEWS``.
+            task_type: One of ``CHATGPT``, ``GEMINI``, ``AIMODE``, ``GOOGLE``,
+                ``GOOGLE_NEWS``.
             payload: Provider-specific body (e.g. ``{"prompt": ..., "country": ...}``,
                 or ``{"query": ..., "country": ...}`` for Google Search).
             priority: 1-10, higher runs first (default 1).
