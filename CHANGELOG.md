@@ -4,6 +4,19 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project adheres
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.0]
+
+### Removed
+
+- `client.monitor.copilot()`, `client.monitor.perplexity()`, and the `COPILOT`
+  and `PERPLEXITY` task types. This is a breaking change. Copilot and
+  Perplexity now block access for logged-out sessions. cloro uses logged-out
+  sessions, so it cannot get their answers. The API now rejects
+  `/v1/monitor/copilot` and `/v1/monitor/perplexity` with a `400`
+  (`MODEL_UNAVAILABLE`). These requests cost no credits.
+- The Copilot, Perplexity, and Grok paths, schemas, and enum values from the
+  vendored `openapi.json`.
+
 ## [0.2.0]
 
 ### Removed
