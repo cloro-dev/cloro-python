@@ -2,7 +2,7 @@
 
 The official Python SDK for [**cloro**](https://cloro.dev), the API for Google Search
 and AI answers. It gives you a Google SERP API, a Google News API, and answers from
-ChatGPT, Gemini, Google AI Mode and Google AI Overview. cloro
+ChatGPT, Gemini, Google AI Mode, Bing AI Mode and Google AI Overview. cloro
 also runs an [MCP server](https://cloro.dev/docs/integrations/mcp) that exposes
 its monitor endpoints as tools for Claude, Codex, Cursor or your own agent.
 
@@ -52,6 +52,7 @@ Google Search and Google News take a `query`.
 client.monitor.chatgpt(prompt="...", country="US")
 client.monitor.gemini(prompt="...", country="US")
 client.monitor.aimode(prompt="...", country="US")           # Google AI Mode
+client.monitor.bing_aimode(prompt="...", country="US")      # Bing AI Mode
 
 client.monitor.google(query="best crm", country="US", pages=1)
 client.monitor.google_news(query="acme corp", country="US")
@@ -59,6 +60,32 @@ client.monitor.google_news(query="acme corp", country="US")
 
 Pass `include={...}` to request extra formats: `markdown`, `html`,
 `searchQueries`, `shopping`, and more, depending on the engine.
+
+### Bing AI Mode
+
+`bing_aimode()` gets the answer from Bing AI Mode. The
+result has `text`, `sources` and `citationPills`. Set `include` to get
+`markdown`, or `html` (a URL to the HTML of the page that Bing shows). Use
+`state` to target a US state. `state` is valid only with `country="US"`.
+
+```python
+res = client.monitor.bing_aimode(
+    prompt="best running shoes for flat feet",
+    country="US",
+    state="CA",
+    include={"markdown": True, "html": True},
+)
+
+print(res["result"]["text"])
+for pill in res["result"]["citationPills"]:
+    print(pill["citationPillId"], pill["domain"], pill["url"])
+```
+
+The prompt can have a maximum of 3,500 characters after URL encoding. Non-Latin
+scripts take more characters when encoded, so the limit for them is lower. A
+request costs 4 credits, plus 2 credits for a sync request and 2 credits when
+you set `state`. An async task (`BING_AIMODE`) does not have the 2-credit sync
+charge. `client.countries(model="bing_aimode")` gives the supported countries.
 
 ## Async task queue
 
@@ -106,8 +133,8 @@ Queue-wide status:
 client.async_tasks.status()   # queued / processing counts, concurrency usage
 ```
 
-Valid `task_type` values: `CHATGPT`, `GEMINI`, `AIMODE`, `GOOGLE`,
-`GOOGLE_NEWS`.
+Valid `task_type` values: `CHATGPT`, `GEMINI`, `AIMODE`, `BING_AIMODE`,
+`GOOGLE`, `GOOGLE_NEWS`.
 
 ## Configuration
 
@@ -154,6 +181,7 @@ with `TaskFailedError` / `TaskTimeoutError` from the poller and
 ```python
 client.countries()             # supported countries
 client.countries(model="chatgpt")
+client.countries(model="bing_aimode")
 client.states()                # US states for location-targeted Google
 ```
 

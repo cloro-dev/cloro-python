@@ -1,6 +1,8 @@
 """Unit tests — no network; all HTTP is served by httpx.MockTransport."""
 from __future__ import annotations
 
+import json
+
 import httpx
 import pytest
 
@@ -63,6 +65,91 @@ def test_monitor_google_uses_query():
     client = make_client(handler)
     client.monitor.google(query="best crm", country="US", pages=2)
     assert seen["url"].endswith("/v1/monitor/google")
+
+
+def test_monitor_bing_aimode_request_and_response():
+    seen = {}
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        seen["url"] = str(request.url)
+        seen["body"] = json.loads(request.content)
+        return httpx.Response(
+            200,
+            json={
+                "success": True,
+                "result": {
+                    "text": "hi",
+                    "sources": [{"position": 1, "label": "A", "url": "https://a.example"}],
+                    "citationPills": [
+                        {"position": 1, "label": "A", "url": "https://a.example",
+                         "domain": "a.example", "citationPillId": 1}
+                    ],
+                },
+            },
+        )
+
+    client = make_client(handler)
+    res = client.monitor.bing_aimode(
+        prompt="hello", country="US", state="CA", include={"markdown": True, "html": True}
+    )
+
+    assert seen["url"] == "https://api.cloro.dev/v1/monitor/bing/aimode"
+    assert seen["body"] == {
+        "prompt": "hello",
+        "country": "US",
+        "state": "CA",
+        "include": {"markdown": True, "html": True},
+    }
+    assert res["result"]["citationPills"][0]["citationPillId"] == 1
+
+
+def test_monitor_bing_aimode_drops_unset_state():
+    seen = {}
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        seen["body"] = json.loads(request.content)
+        return httpx.Response(200, json={"success": True, "result": {}})
+
+    client = make_client(handler)
+    client.monitor.bing_aimode(prompt="x", country="GB")
+    assert seen["body"] == {"prompt": "x", "country": "GB"}
+
+
+def test_async_create_bing_aimode_task():
+    seen = {}
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        seen["url"] = str(request.url)
+        seen["body"] = json.loads(request.content)
+        return httpx.Response(
+            200,
+            json={
+                "success": True,
+                "task": {"id": "t-2", "taskType": "BING_AIMODE", "status": "QUEUED",
+                         "priority": 1, "createdAt": "2026-11-07T12:00:00.000Z"},
+                "credits": {"creditsToCharge": 4, "creditsCharged": None},
+            },
+        )
+
+    client = make_client(handler)
+    task = client.async_tasks.create(
+        task_type="BING_AIMODE", payload={"prompt": "x", "country": "US"}
+    )
+    assert seen["url"] == "https://api.cloro.dev/v1/async/task"
+    assert seen["body"] == {"taskType": "BING_AIMODE", "payload": {"prompt": "x", "country": "US"}}
+    assert task.task_type == "BING_AIMODE"
+
+
+def test_countries_for_bing_aimode():
+    seen = {}
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        seen["url"] = str(request.url)
+        return httpx.Response(200, json=["US", "GB"])
+
+    client = make_client(handler)
+    client.countries(model="bing_aimode")
+    assert seen["url"] == "https://api.cloro.dev/v1/countries?model=bing_aimode"
 
 
 def test_discontinued_engines_are_not_exposed():

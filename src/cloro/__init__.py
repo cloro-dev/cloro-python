@@ -1,7 +1,7 @@
 """cloro — the official Python SDK.
 
 One API for Google Search and every AI answer engine (ChatGPT, Gemini,
-AI Overview, AI Mode). Real-time, structured JSON.
+AI Overview, Google AI Mode, Bing AI Mode). Real-time, structured JSON.
 
     from cloro import Cloro
 

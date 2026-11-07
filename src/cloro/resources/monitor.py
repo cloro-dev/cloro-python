@@ -51,6 +51,26 @@ class MonitorResource:
             {"prompt": prompt, "country": country, "include": include, **extra},
         )
 
+    def bing_aimode(
+        self,
+        prompt: str,
+        country: str,
+        *,
+        state: Optional[str] = None,
+        include: Optional[Dict[str, bool]] = None,
+        **extra: Any,
+    ) -> Any:
+        """Monitor Bing AI Mode. ``POST /v1/monitor/bing/aimode``.
+
+        The prompt can have a maximum of 3,500 characters after URL encoding.
+        ``state`` is a US state code and is valid only with ``country="US"``.
+        ``include`` accepts ``markdown`` and ``html``.
+        """
+        return self._run(
+            "/v1/monitor/bing/aimode",
+            {"prompt": prompt, "country": country, "state": state, "include": include, **extra},
+        )
+
     # -- Google Search (query-based) ------------------------------------
 
     def google(
