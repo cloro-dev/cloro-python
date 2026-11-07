@@ -4,6 +4,18 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project adheres
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.0]
+
+### Added
+
+- `client.monitor.bing_aimode()` for Bing AI Mode,
+  `POST /v1/monitor/bing/aimode`. It accepts `prompt`, `country`, `state` (US
+  only) and `include` (`markdown`, `html`).
+- The `BING_AIMODE` task type for `client.async_tasks`.
+- The Bing AI Mode path, its request and response schemas, the `BING_AIMODE`
+  task type and the `bing_aimode` countries model in the vendored
+  `openapi.json`.
+
 ## [0.3.0]
 
 ### Removed

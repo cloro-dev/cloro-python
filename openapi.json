@@ -990,6 +990,200 @@
         }
       }
     },
+    "/v1/monitor/bing/aimode": {
+      "post": {
+        "summary": "Monitor Bing AI Mode Responses",
+        "description": "Extract structured data from Bing AI Mode about your brand, products, or any topic across various regions. Costs 4 credits, plus 2 credits for a sync request and 2 credits for US state targeting.",
+        "operationId": "monitorBingAiMode",
+        "requestBody": {
+          "description": "Request parameters for monitoring Bing AI Mode responses",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BingAiModeMonitorRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "successful Bing AI Mode monitoring response",
+            "headers": {
+              "X-Concurrent-Limit": {
+                "description": "Maximum number of concurrent requests allowed",
+                "schema": {
+                  "type": "integer",
+                  "example": 10
+                }
+              },
+              "X-Concurrent-Current": {
+                "description": "Current number of concurrent requests",
+                "schema": {
+                  "type": "integer",
+                  "example": 3
+                }
+              },
+              "X-Concurrent-Remaining": {
+                "description": "Number of remaining concurrent slots available",
+                "schema": {
+                  "type": "integer",
+                  "example": 7
+                }
+              },
+              "X-Credits-Remaining": {
+                "description": "Number of credits remaining in user account",
+                "schema": {
+                  "type": "integer",
+                  "example": 4
+                }
+              },
+              "X-Credits-Charged": {
+                "description": "Number of credits charged for this request",
+                "schema": {
+                  "type": "integer",
+                  "example": 5
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BingAiModeMonitorResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - Insufficient permissions or credits",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ForbiddenError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found - Route not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict - Resource conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConflictError"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "headers": {
+              "X-Concurrent-Limit": {
+                "description": "Maximum number of concurrent requests allowed",
+                "schema": {
+                  "type": "integer",
+                  "example": 10
+                }
+              },
+              "X-Concurrent-Current": {
+                "description": "Current number of concurrent requests",
+                "schema": {
+                  "type": "integer",
+                  "example": 11
+                }
+              },
+              "X-Concurrent-Remaining": {
+                "description": "Number of remaining concurrent slots available",
+                "schema": {
+                  "type": "integer",
+                  "example": 0
+                }
+              },
+              "X-Credits-Remaining": {
+                "description": "Number of credits remaining in user account",
+                "schema": {
+                  "type": "integer",
+                  "example": 4
+                }
+              },
+              "X-Credits-Charged": {
+                "description": "Number of credits charged for this request",
+                "schema": {
+                  "type": "integer",
+                  "example": 0
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConcurrentLimitError"
+                }
+              }
+            }
+          },
+          "499": {
+            "description": "Client Closed Request - Request was canceled",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CanceledError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InternalError"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Bad Gateway - External service error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExternalServiceError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/countries": {
       "get": {
         "summary": "List of countries",
@@ -1004,6 +1198,7 @@
               "type": "string",
               "enum": [
                 "aimode",
+                "bing_aimode",
                 "chatgpt",
                 "gemini",
                 "google"
@@ -1522,6 +1717,7 @@
             "type": "string",
             "enum": [
               "AIMODE",
+              "BING_AIMODE",
               "GOOGLE",
               "GOOGLE_NEWS",
               "GEMINI",
@@ -1699,6 +1895,7 @@
             "type": "string",
             "enum": [
               "AIMODE",
+              "BING_AIMODE",
               "GOOGLE",
               "GOOGLE_NEWS",
               "GEMINI",
@@ -5569,6 +5766,194 @@
                     }
                   }
                 }
+              }
+            }
+          }
+        }
+      },
+      "BingAiModeMonitorRequest": {
+        "required": [
+          "prompt",
+          "country"
+        ],
+        "type": "object",
+        "properties": {
+          "prompt": {
+            "description": "The prompt to send to Bing AI Mode. Maximum 3,500 characters after URL encoding. Non-Latin scripts take more characters when encoded, so the limit for them is lower.",
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 3500,
+            "example": "What are the best laptops for programming?"
+          },
+          "country": {
+            "description": "Country/region code (ISO 3166-1 alpha-2) for localized response. All countries are supported except BY, CN, IR, RU, SY and VE. Use GET /v1/countries?model=bing_aimode to get the list.",
+            "type": "string",
+            "example": "US"
+          },
+          "state": {
+            "$ref": "#/components/schemas/StateParameter"
+          },
+          "include": {
+            "description": "Optional flags for including additional response formats",
+            "type": "object",
+            "properties": {
+              "html": {
+                "description": "Include a URL to the full HTML of Bing's rendered page",
+                "type": "boolean",
+                "default": false,
+                "example": true
+              },
+              "markdown": {
+                "description": "Include markdown-formatted response in the result",
+                "type": "boolean",
+                "default": false,
+                "example": true
+              }
+            },
+            "default": {
+              "html": false,
+              "markdown": false
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "BingAiModeMonitorResponse": {
+        "required": [
+          "success",
+          "result"
+        ],
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "example": true
+          },
+          "result": {
+            "description": "Bing AI Mode response data",
+            "type": "object",
+            "required": [
+              "text",
+              "sources",
+              "citationPills"
+            ],
+            "properties": {
+              "text": {
+                "type": "string",
+                "description": "Bing AI Mode's response text",
+                "example": "Here are some excellent laptop recommendations for programming..."
+              },
+              "sources": {
+                "type": "array",
+                "description": "Array of sources referenced in the response",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "position": {
+                      "type": "number",
+                      "description": "The position index of the source in the response",
+                      "example": 1
+                    },
+                    "url": {
+                      "type": "string",
+                      "description": "The URL of the source",
+                      "example": "https://example.com/article"
+                    },
+                    "label": {
+                      "type": "string",
+                      "description": "The display label for the source",
+                      "example": "AI Source"
+                    },
+                    "description": {
+                      "type": "string",
+                      "description": "A description of the source content",
+                      "example": "AI-generated recommendations"
+                    }
+                  }
+                },
+                "example": [
+                  {
+                    "position": 1,
+                    "url": "https://example.com/ai-recommendations",
+                    "label": "AI Source",
+                    "description": "AI-curated laptop recommendations"
+                  }
+                ]
+              },
+              "citationPills": {
+                "type": "array",
+                "description": "Inline citation pills extracted from the Bing AI Mode answer. Each entry is one (pill, source) pair. Entries from the same pill share a `citationPillId`. Group by `citationPillId` to recover the pill-level structure.",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "label",
+                    "citationPillId",
+                    "url",
+                    "domain",
+                    "position"
+                  ],
+                  "properties": {
+                    "label": {
+                      "type": "string",
+                      "description": "Title of the cited source.",
+                      "example": "Best Laptops 2026 — Reuters"
+                    },
+                    "citationPillId": {
+                      "type": "integer",
+                      "description": "1-based ordinal shared by all entries from the same pill.",
+                      "example": 1
+                    },
+                    "url": {
+                      "type": "string",
+                      "description": "Direct URL of the cited source.",
+                      "example": "https://example.com/best-laptops-2026"
+                    },
+                    "domain": {
+                      "type": "string",
+                      "description": "Host extracted from `url`, for grouping and display.",
+                      "example": "example.com"
+                    },
+                    "description": {
+                      "type": "string",
+                      "description": "Source description, when Bing supplies one.",
+                      "example": "A guide to the top laptops for software development this year."
+                    },
+                    "position": {
+                      "type": "integer",
+                      "description": "1-based position of this source in the sibling `result.sources` array.",
+                      "example": 1
+                    }
+                  }
+                },
+                "example": [
+                  {
+                    "label": "Best Laptops 2026 — Reuters",
+                    "citationPillId": 1,
+                    "url": "https://example.com/best-laptops-2026",
+                    "domain": "example.com",
+                    "description": "A guide to the top laptops for software development this year.",
+                    "position": 1
+                  },
+                  {
+                    "label": "MacBook Pro M4 Hands-On Review",
+                    "citationPillId": 1,
+                    "url": "https://example.com/macbook-pro-review",
+                    "domain": "example.com",
+                    "position": 3
+                  }
+                ]
+              },
+              "markdown": {
+                "type": "string",
+                "description": "Bing AI Mode's response formatted in Markdown (included when include.markdown is true)",
+                "example": "Here are some excellent laptop recommendations for programming..."
+              },
+              "html": {
+                "type": "string",
+                "format": "uri",
+                "description": "A URL to the full HTML of Bing's rendered page (included when include.html is true)",
+                "example": "https://storage.cloro.dev/results/c45a5081-808d-4ed3-9c86-e4baf16c8ab8/page-1.html"
               }
             }
           }
