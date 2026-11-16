@@ -9,16 +9,16 @@ src/cloro/
   resources/
     monitor.py          # POST /v1/monitor/* (sync per-engine methods)
     async_tasks.py      # /v1/async/* queue + the wait() poller
-openapi.json            # vendored source of truth for the API surface
 tests/                  # httpx.MockTransport-based unit tests (no network)
 ```
 
 ## Source of truth
 
-`openapi.json` (the cloro OpenAPI 3.1 spec, also served at
-<https://cloro.dev/docs/api-reference/openapi.json>) is the contract. When the
-API changes, refresh the vendored copy and reconcile the resource methods and
-types against it.
+The cloro OpenAPI 3.1 spec at
+<https://cloro.dev/docs/api-reference/openapi.json> is the contract. This repo
+keeps no copy. When the API changes, read the spec at that URL and make the
+resource methods and types agree with it. The
+[changelog](https://cloro.dev/docs/changelog) lists the API changes.
 
 The resource/type layer is intentionally thin and could be generated from the
 spec (Stainless / Speakeasy / Fern) if the surface grows. The one piece to keep

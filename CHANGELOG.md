@@ -4,6 +4,13 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project adheres
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Removed
+
+- The vendored `openapi.json`. The SDK did not read it, and it was out of date.
+  The spec is at <https://cloro.dev/docs/api-reference/openapi.json>.
+
 ## [0.4.0]
 
 ### Added
