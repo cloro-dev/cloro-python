@@ -1,8 +1,8 @@
 # cloro Python SDK
 
 The official Python SDK for [**cloro**](https://cloro.dev), the API for Google Search
-and AI answers. It gives you a Google SERP API, a Google News API, and answers from
-ChatGPT, Gemini, Google AI Mode, Bing AI Mode and Google AI Overview. cloro
+and AI answers. It gives you a Google SERP API, a Google News API, a Bing SERP API,
+and answers from ChatGPT, Gemini, Google AI Mode, Bing AI Mode and Google AI Overview. cloro
 also runs an [MCP server](https://cloro.dev/docs/integrations/mcp) that exposes
 its monitor endpoints as tools for Claude, Codex, Cursor or your own agent.
 
@@ -46,7 +46,7 @@ pass `api_key=`. Get a key (and 500 free credits) at
 ## Engines
 
 Every engine is a method on `client.monitor`. AI engines take a `prompt`;
-Google Search and Google News take a `query`.
+Google Search, Google News and Bing Search take a `query`.
 
 ```python
 client.monitor.chatgpt(prompt="...", country="US")
@@ -56,6 +56,7 @@ client.monitor.bing_aimode(prompt="...", country="US")      # Bing AI Mode
 
 client.monitor.google(query="best crm", country="US", pages=1)
 client.monitor.google_news(query="acme corp", country="US")
+client.monitor.bing(query="best crm", country="US")         # Bing Search
 ```
 
 Pass `include={...}` to request extra formats: `markdown`, `html`,
@@ -86,6 +87,34 @@ scripts take more characters when encoded, so the limit for them is lower. A
 request costs 4 credits, plus 2 credits for a sync request and 2 credits when
 you set `state`. An async task (`BING_AIMODE`) does not have the 2-credit sync
 charge. `client.countries(model="bing_aimode")` gives the supported countries.
+
+### Bing Search
+
+`bing()` gets the Bing results with the AI Overview. The result has
+`organicResults` and, when you request it and Bing shows one, `aioverview`.
+Both have the same shape as in Google Search. Set `include` to get `html` (the
+results page), or `aioverview`. Set `aioverview` to `True`, or to
+`{"markdown": True}` to also get the AI Overview as markdown. Bing Search has no
+`state`, `device` or `pages`. The country selects the Bing market.
+
+```python
+res = client.monitor.bing(
+    query="best running shoes for flat feet",
+    country="US",
+    include={"aioverview": {"markdown": True}},
+)
+
+for r in res["result"]["organicResults"]:
+    print(r["position"], r["link"], r["title"])
+if "aioverview" in res["result"]:
+    print(res["result"]["aioverview"]["markdown"])
+```
+
+The query can have a maximum of 3,500 characters after URL encoding. Non-Latin
+scripts take more characters when encoded, so the limit for them is lower. A
+request costs 3 credits, plus 2 credits for a sync request and 2 credits when
+you set `aioverview`. An async task (`BING`) does not have the 2-credit sync
+charge. `client.countries(model="bing")` gives the supported countries.
 
 ## Async task queue
 
@@ -134,7 +163,7 @@ client.async_tasks.status()   # queued / processing counts, concurrency usage
 ```
 
 Valid `task_type` values: `CHATGPT`, `GEMINI`, `AIMODE`, `BING_AIMODE`,
-`GOOGLE`, `GOOGLE_NEWS`.
+`GOOGLE`, `GOOGLE_NEWS`, `BING`.
 
 ## Configuration
 
@@ -182,6 +211,7 @@ with `TaskFailedError` / `TaskTimeoutError` from the poller and
 client.countries()             # supported countries
 client.countries(model="chatgpt")
 client.countries(model="bing_aimode")
+client.countries(model="bing")
 client.states()                # US states for location-targeted Google
 ```
 
