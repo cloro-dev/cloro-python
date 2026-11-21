@@ -1,4 +1,4 @@
-"""Synchronous monitor endpoints — one call per AI engine or Google Search."""
+"""Synchronous monitor endpoints — one call per AI engine, Google Search or Bing Search."""
 from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any, Dict, Optional
@@ -106,5 +106,21 @@ class MonitorResource:
         """Monitor Google News. ``POST /v1/monitor/google/news``."""
         return self._run(
             "/v1/monitor/google/news",
+            {"query": query, "country": country, "include": include, **extra},
+        )
+
+    # -- Bing Search (query-based) --------------------------------------
+
+    def bing(
+        self, query: str, country: str, *, include: Optional[Dict[str, Any]] = None, **extra: Any
+    ) -> Any:
+        """Monitor Bing Search (SERP). ``POST /v1/monitor/bing``.
+
+        The query can have a maximum of 3,500 characters after URL encoding.
+        The country selects the Bing market. ``include`` accepts ``html`` and
+        ``aioverview``. ``aioverview`` is ``True`` or ``{"markdown": True}``.
+        """
+        return self._run(
+            "/v1/monitor/bing",
             {"query": query, "country": country, "include": include, **extra},
         )

@@ -88,9 +88,9 @@ class AsyncTasksResource:
 
         Args:
             task_type: One of ``CHATGPT``, ``GEMINI``, ``AIMODE``, ``BING_AIMODE``,
-                ``GOOGLE``, ``GOOGLE_NEWS``.
+                ``GOOGLE``, ``GOOGLE_NEWS``, ``BING``.
             payload: Provider-specific body (e.g. ``{"prompt": ..., "country": ...}``,
-                or ``{"query": ..., "country": ...}`` for Google Search).
+                or ``{"query": ..., "country": ...}`` for Google Search and Bing Search).
             priority: 1-10, higher runs first (default 1).
             idempotency_key: Unique string to dedupe task creation.
             webhook: ``{"url": ...}`` to be notified on completion.

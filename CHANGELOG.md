@@ -4,7 +4,15 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project adheres
 to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.5.0]
+
+### Added
+
+- `client.monitor.bing()` for Bing Search, `POST /v1/monitor/bing`. It accepts
+  `query`, `country` and `include` (`html`, and `aioverview` as `True` or
+  `{"markdown": True}`). The result has `organicResults` and, when requested
+  and Bing shows one, `aioverview`, in the same shapes as Google Search.
+- The `BING` task type for `client.async_tasks`.
 
 ### Removed
 

@@ -152,6 +152,62 @@ def test_countries_for_bing_aimode():
     assert seen["url"] == "https://api.cloro.dev/v1/countries?model=bing_aimode"
 
 
+def test_monitor_bing_request_and_response():
+    seen = {}
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        seen["url"] = str(request.url)
+        seen["body"] = json.loads(request.content)
+        return httpx.Response(
+            200,
+            json={
+                "success": True,
+                "result": {
+                    "organicResults": [
+                        {"position": 1, "title": "A", "link": "https://a.example",
+                         "displayedLink": "a.example", "snippet": "s", "page": 1}
+                    ],
+                    "aioverview": {"text": "hi", "sources": [], "markdown": "hi"},
+                },
+            },
+        )
+
+    client = make_client(handler)
+    res = client.monitor.bing(
+        query="best crm", country="US", include={"html": True, "aioverview": {"markdown": True}}
+    )
+
+    assert seen["url"] == "https://api.cloro.dev/v1/monitor/bing"
+    assert seen["body"] == {
+        "query": "best crm",
+        "country": "US",
+        "include": {"html": True, "aioverview": {"markdown": True}},
+    }
+    assert res["result"]["organicResults"][0]["link"] == "https://a.example"
+    assert res["result"]["aioverview"]["markdown"] == "hi"
+
+
+def test_async_create_bing_task():
+    seen = {}
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        seen["body"] = json.loads(request.content)
+        return httpx.Response(
+            200,
+            json={
+                "success": True,
+                "task": {"id": "t-3", "taskType": "BING", "status": "QUEUED",
+                         "priority": 1, "createdAt": "2026-11-21T12:00:00.000Z"},
+                "credits": {"creditsToCharge": 3, "creditsCharged": None},
+            },
+        )
+
+    client = make_client(handler)
+    task = client.async_tasks.create(task_type="BING", payload={"query": "x", "country": "US"})
+    assert seen["body"] == {"taskType": "BING", "payload": {"query": "x", "country": "US"}}
+    assert task.task_type == "BING"
+
+
 def test_discontinued_engines_are_not_exposed():
     client = Cloro(api_key="sk_test")
     assert not hasattr(client.monitor, "copilot")
