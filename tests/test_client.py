@@ -67,6 +67,22 @@ def test_monitor_google_uses_query():
     assert seen["url"].endswith("/v1/monitor/google")
 
 
+def test_monitor_bing_sends_pages_and_first_only_when_set():
+    bodies = []
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        bodies.append(json.loads(request.content))
+        return httpx.Response(200, json={"success": True, "result": {}})
+
+    client = make_client(handler)
+    client.monitor.bing(query="best crm", country="US")
+    client.monitor.bing(query="best crm", country="US", pages=3, first=41)
+    assert bodies == [
+        {"query": "best crm", "country": "US"},
+        {"query": "best crm", "country": "US", "pages": 3, "first": 41},
+    ]
+
+
 def test_monitor_bing_aimode_request_and_response():
     seen = {}
 

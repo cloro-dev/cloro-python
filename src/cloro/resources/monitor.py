@@ -112,15 +112,31 @@ class MonitorResource:
     # -- Bing Search (query-based) --------------------------------------
 
     def bing(
-        self, query: str, country: str, *, include: Optional[Dict[str, Any]] = None, **extra: Any
+        self,
+        query: str,
+        country: str,
+        *,
+        pages: Optional[int] = None,
+        first: Optional[int] = None,
+        include: Optional[Dict[str, Any]] = None,
+        **extra: Any,
     ) -> Any:
         """Monitor Bing Search (SERP). ``POST /v1/monitor/bing``.
 
         The query can have a maximum of 3,500 characters after URL encoding.
-        The country selects the Bing market. ``include`` accepts ``html`` and
+        The country selects the Bing market. ``pages`` is 1 to 10. ``first`` is
+        the result to start at, and 1 is the first result. Bing shows no AI
+        Overview when ``first`` is more than 1. ``include`` accepts ``html`` and
         ``aioverview``. ``aioverview`` is ``True`` or ``{"markdown": True}``.
         """
         return self._run(
             "/v1/monitor/bing",
-            {"query": query, "country": country, "include": include, **extra},
+            {
+                "query": query,
+                "country": country,
+                "pages": pages,
+                "first": first,
+                "include": include,
+                **extra,
+            },
         )
