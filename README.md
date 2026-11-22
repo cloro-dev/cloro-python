@@ -94,8 +94,10 @@ charge. `client.countries(model="bing_aimode")` gives the supported countries.
 `organicResults` and, when you request it and Bing shows one, `aioverview`.
 Both have the same shape as in Google Search. Set `include` to get `html` (the
 results page), or `aioverview`. Set `aioverview` to `True`, or to
-`{"markdown": True}` to also get the AI Overview as markdown. Bing Search has no
-`state`, `device` or `pages`. The country selects the Bing market.
+`{"markdown": True}` to also get the AI Overview as markdown. `pages` (1 to 10, 2 credits for each
+page after the first) and `first` (the result to start at, default 1) select the
+results. Bing shows its AI summary only on the first page. Bing Search has no
+`state` or `device`. The country selects the Bing market.
 
 ```python
 res = client.monitor.bing(
