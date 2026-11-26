@@ -1,9 +1,9 @@
 # cloro Python SDK
 
-The official Python SDK for [**cloro**](https://cloro.dev), the API for Google Search
-and AI answers. It gives you a Google SERP API, a Google News API, a Bing SERP API,
-and answers from ChatGPT, Gemini, Google AI Mode, Bing AI Mode and Google AI Overview. cloro
-also runs an [MCP server](https://cloro.dev/docs/integrations/mcp) that exposes
+The official Python SDK for [**cloro**](https://cloro.dev), the API for AI answers.
+It returns structured JSON from eight engines: ChatGPT, Google Search, Google News,
+Google AI Overview, Google AI Mode, Gemini, Bing Search and Bing AI Mode (Copilot
+Search in Bing). cloro also runs an [MCP server](https://cloro.dev/docs/integrations/mcp) that exposes
 its monitor endpoints as tools for Claude, Codex, Cursor or your own agent.
 
 cloro also has an official JS SDK,
