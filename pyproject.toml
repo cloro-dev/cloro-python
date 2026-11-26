@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "cloro"
 dynamic = ["version"]
-description = "Official Python SDK for the cloro API: one API for Google Search, Bing Search and every AI answer engine (ChatGPT, Gemini, AI Overview, Google AI Mode, Bing AI Mode)."
+description = "Official Python SDK for cloro, the API for AI answers: ChatGPT, Google Search, Google News, Google AI Overview, Google AI Mode, Gemini, Bing Search and Bing AI Mode."
 readme = "README.md"
 requires-python = ">=3.8"
 license = { text = "MIT" }
